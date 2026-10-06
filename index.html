@@ -1,10 +1,9 @@
-html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klinik Kesihatan Location Review</title>
+    <title>Semakan Keputusan Klinik Kesihatan</title>
     <style>
         body { font-family: 'Segoe UI', Arial, sans-serif; text-align: center; background-color: #f4f7f6; color: #333; padding: 50px 20px; }
         .container { max-width: 550px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
@@ -31,7 +30,7 @@ html
 </div>
 
 <script>
-    // 📍 DATABASE OF ALL 58 KLINIK KESIHATAN LOCATIONS
+    // 📍 SENARAI SEMUA 58 KLINIK KESIHATAN
     const validLocations = [
         "KK BACHOK", "KK GUNONG", "KK BERIS KUBOR BESAR", "KK BALAI", "KK MAHLIGAI",
         "KK BERIS PANCHOR", "KK KUBANG KERIAN", "KK BANDAR KOTA BHARU", "KK PENAMBANG", "KK BADANG",
@@ -47,31 +46,28 @@ html
         "KK BANDAR JELI", "KK AYER LANAS", "KK KUALA BALAH"
     ];
 
-    // 📝 THE SHARED RESULT MESSAGE
-    // Anda boleh menukar teks keputusan ini mengikut kesesuaian anda.
+    // 📝 UTUSAN KEPUTUSAN KONGSI (Tukar teks ini mengikut keperluan anda)
     const sharedResult = "<strong>Status: SELESAI / LULUS</strong><br>Keputusan: Klinik Kesihatan ini telah berjaya memenuhi semua kriteria penilaian yang ditetapkan.";
 
     function checkPlaceResult() {
         const userInput = document.getElementById("codeField").value.trim().toUpperCase();
         const resultBox = document.getElementById("resultBox");
         
-        // Show the result container
         resultBox.style.display = "block";
 
-        // Verify if the input matches any clinic in the array
         if (validLocations.includes(userInput)) {
             resultBox.innerHTML = `<h3>${userInput}</h3>${sharedResult}`;
-            resultBox.style.backgroundColor = "#e8f8f5"; // Clean Green Box
+            resultBox.style.backgroundColor = "#e8f8f5"; 
             resultBox.style.color = "#117a65";
             resultBox.style.border = "1px solid #a3e4d7";
         } else if (userInput === "") {
             resultBox.innerHTML = "Sila masukkan nama Klinik Kesihatan terlebih dahulu.";
-            resultBox.style.backgroundColor = "#fef9e7"; // Alert Yellow Box
+            resultBox.style.backgroundColor = "#fef9e7"; 
             resultBox.style.color = "#b59d1a";
             resultBox.style.border = "1px solid #f9e79f";
         } else {
-            resultBox.innerHTML = "Nama klinik tidak dijumpai. Sila pastikan ejaan adalah betul (Contoh: KK BACHOK).";
-            resultBox.style.backgroundColor = "#fadbd8"; // Error Red Box
+            resultBox.innerHTML = "Nama klinik tidak dijumpai. Sila pastikan ejaan adalah betul dan menggunakan huruf besar (Contoh: KK BACHOK).";
+            resultBox.style.backgroundColor = "#fadbd8"; 
             resultBox.style.color = "#78281f";
             resultBox.style.border = "1px solid #f5b7b1";
         }
