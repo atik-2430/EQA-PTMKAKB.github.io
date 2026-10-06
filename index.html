@@ -13,7 +13,10 @@
         input:focus { border-color: #3498db; }
         button { background-color: #3498db; color: white; border: none; padding: 12px 25px; font-size: 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         button:hover { background-color: #2980b9; }
-        #resultBox { margin-top: 25px; padding: 20px; border-radius: 4px; font-size: 16px; display: none; line-height: 1.6; text-align: left; }
+        #resultBox { margin-top: 25px; padding: 20px; border-radius: 4px; font-size: 16px; display: none; line-height: 1.8; text-align: left; }
+        .sample-item { margin-bottom: 8px; font-size: 16px; color: black; }
+        .tebal-hitam { font-weight: bold; color: black; }
+        .tebal-merah { font-weight: bold; color: red; }
     </style>
 </head>
 <body>
@@ -46,8 +49,13 @@
         "KK BANDAR JELI", "KK AYER LANAS", "KK KUALA BALAH"
     ];
 
-    // 📝 UTUSAN KEPUTUSAN KONGSI (Tukar teks ini mengikut keperluan anda)
-    const sharedResult = "<strong>Status: SELESAI / LULUS</strong><br>Keputusan: Klinik Kesihatan ini telah berjaya memenuhi semua kriteria penilaian yang ditetapkan.";
+    // 📝 FORMAT KEPUTUSAN KONGSI DENGAN WARNA BARU
+    const sharedResult = `
+        <strong style="color: #2c3e50;">Keputusan Penilaian Sampel:</strong><br><br>
+        <div class="sample-item">🔹 <span class="tebal-hitam">Sampel 1</span> : <span class="tebal-hitam">Negatif</span></div>
+        <div class="sample-item">🔹 <span class="tebal-hitam">Sampel 2</span> : <span class="tebal-merah">Positif</span></div>
+        <div class="sample-item">🔹 <span class="tebal-hitam">Sampel 3</span> : <span class="tebal-hitam">Negatif</span></div>
+    `;
 
     function checkPlaceResult() {
         const userInput = document.getElementById("codeField").value.trim().toUpperCase();
@@ -57,9 +65,9 @@
 
         if (validLocations.includes(userInput)) {
             resultBox.innerHTML = `<h3>${userInput}</h3>${sharedResult}`;
-            resultBox.style.backgroundColor = "#e8f8f5"; 
-            resultBox.style.color = "#117a65";
-            resultBox.style.border = "1px solid #a3e4d7";
+            resultBox.style.backgroundColor = "#f8f9fa"; 
+            resultBox.style.color = "#2c3e50";
+            resultBox.style.border = "1px solid #dee2e6";
         } else if (userInput === "") {
             resultBox.innerHTML = "Sila masukkan nama Klinik Kesihatan terlebih dahulu.";
             resultBox.style.backgroundColor = "#fef9e7"; 
