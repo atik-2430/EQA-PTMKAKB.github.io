@@ -1,62 +1,77 @@
+html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Place Results Review</title>
+    <title>Klinik Kesihatan Location Review</title>
     <style>
         body { font-family: 'Segoe UI', Arial, sans-serif; text-align: center; background-color: #f4f7f6; color: #333; padding: 50px 20px; }
-        .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h2 { color: #2c3e50; margin-bottom: 20px; }
-        input { width: 80%; padding: 12px; font-size: 16px; border: 2px solid #bdc3c7; border-radius: 4px; margin-bottom: 15px; text-align: center; outline: none; }
+        .container { max-width: 550px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { color: #2c3e50; margin-bottom: 10px; }
+        p { color: #7f8c8d; margin-bottom: 25px; }
+        input { width: 85%; padding: 12px; font-size: 16px; border: 2px solid #bdc3c7; border-radius: 4px; margin-bottom: 15px; text-align: center; outline: none; }
         input:focus { border-color: #3498db; }
-        button { background-color: #3498db; color: white; border: none; padding: 12px 25px; font-size: 16px; border-radius: 4px; cursor: pointer; }
+        button { background-color: #3498db; color: white; border: none; padding: 12px 25px; font-size: 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         button:hover { background-color: #2980b9; }
-        #resultBox { margin-top: 25px; padding: 15px; border-radius: 4px; font-size: 16px; display: none; line-height: 1.5; }
+        #resultBox { margin-top: 25px; padding: 20px; border-radius: 4px; font-size: 16px; display: none; line-height: 1.6; text-align: left; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Review Place Results</h2>
-    <p>Please enter your unique location code below:</p>
+    <h2>Semakan Keputusan</h2>
+    <p>Sila masukkan nama penuh Klinik Kesihatan (KK) anda:</p>
     
-    <input type="text" id="codeField" placeholder="Enter Unique Code (e.g., PLACE-01)">
+    <input type="text" id="codeField" placeholder="Contoh: KK BACHOK">
     <br>
-    <button onclick="checkPlaceResult()">View Results</button>
+    <button onclick="checkPlaceResult()">Semak Keputusan</button>
 
     <div id="resultBox"></div>
 </div>
 
 <script>
-    // 📍 DATABASE OF YOUR 58 PLACES
-    // Replace the text on the right with your real results. Keep codes in UPPERCASE.
-    const placeDatabase = {
-        "PLACE-01": "<strong>Location 01: North Valley</strong><br>Result: 94% Efficiency. Passed inspection.",
-        "PLACE-02": "<strong>Location 02: Sunset Boulevard</strong><br>Result: 82% Efficiency. Needs safety follow-up.",
-        "PLACE-03": "<strong>Location 03: Alpha Outpost</strong><br>Result: 88% Efficiency. Standard operational status.",
-        "PLACE-04": "<strong>Location 04: East Harbor</strong><br>Result: 100% Efficiency. Outstanding performance.",
-        // You can copy/paste lines here to add all 58 items...
-    };
+    // 📍 DATABASE OF ALL 58 KLINIK KESIHATAN LOCATIONS
+    const validLocations = [
+        "KK BACHOK", "KK GUNONG", "KK BERIS KUBOR BESAR", "KK BALAI", "KK MAHLIGAI",
+        "KK BERIS PANCHOR", "KK KUBANG KERIAN", "KK BANDAR KOTA BHARU", "KK PENAMBANG", "KK BADANG",
+        "KK KETEREH", "KK KOK LANAS", "KK KOTA JEMBAL", "KK LUNDANG PAKU", "KK PERINGAT",
+        "KK PENGKALAN CHEPA", "KK PEROL", "KK WAKAF CHE YEH", "KK BELUKAR", "KK MACHANG",
+        "KK LABOK", "KK BATU 30", "KK PULAI CHONDONG", "KK TEMANGAN", "KK RANTAU PANJANG",
+        "KK KANGKONG", "KK BANDAR PASIR MAS", "KK CHEKOK", "KK MERANTI", "KK TENDONG",
+        "KK TOK UBAN", "KK PASIR PUTEH", "KK CHERANG RUKU", "KK GAAL", "KK JERAM",
+        "KK PADANG PAK AMAT", "KK KEMAHANG", "KK GUAL IPOH", "KK BATU GAJAH", "KK TANAH MERAH",
+        "KK BANDAR TUMPAT", "KK PENGKALAN KUBOR", "KK BUNOHAN", "KK WAKAF BHARU", "KK SUNGAI PINANG",
+        "KK BANDAR GUA MUSANG", "KK JERAM TEKOH", "KK ARING", "KK CHIKU 3", "KK BROOKE",
+        "KK KUALA BETIS", "KK BANDAR KUALA KRAI", "KK MANIK URAI", "KK PAHI", "KK DABONG",
+        "KK BANDAR JELI", "KK AYER LANAS", "KK KUALA BALAH"
+    ];
+
+    // 📝 THE SHARED RESULT MESSAGE
+    // Anda boleh menukar teks keputusan ini mengikut kesesuaian anda.
+    const sharedResult = "<strong>Status: SELESAI / LULUS</strong><br>Keputusan: Klinik Kesihatan ini telah berjaya memenuhi semua kriteria penilaian yang ditetapkan.";
 
     function checkPlaceResult() {
         const userInput = document.getElementById("codeField").value.trim().toUpperCase();
         const resultBox = document.getElementById("resultBox");
+        
+        // Show the result container
         resultBox.style.display = "block";
 
-        if (placeDatabase[userInput]) {
-            resultBox.innerHTML = placeDatabase[userInput];
-            resultBox.style.backgroundColor = "#e8f8f5";
+        // Verify if the input matches any clinic in the array
+        if (validLocations.includes(userInput)) {
+            resultBox.innerHTML = `<h3>${userInput}</h3>${sharedResult}`;
+            resultBox.style.backgroundColor = "#e8f8f5"; // Clean Green Box
             resultBox.style.color = "#117a65";
             resultBox.style.border = "1px solid #a3e4d7";
         } else if (userInput === "") {
-            resultBox.innerHTML = "Please enter a code before clicking submit.";
-            resultBox.style.backgroundColor = "#fef9e7";
+            resultBox.innerHTML = "Sila masukkan nama Klinik Kesihatan terlebih dahulu.";
+            resultBox.style.backgroundColor = "#fef9e7"; // Alert Yellow Box
             resultBox.style.color = "#b59d1a";
             resultBox.style.border = "1px solid #f9e79f";
         } else {
-            resultBox.innerHTML = "Code not found. Please try again.";
-            resultBox.style.backgroundColor = "#fadbd8";
+            resultBox.innerHTML = "Nama klinik tidak dijumpai. Sila pastikan ejaan adalah betul (Contoh: KK BACHOK).";
+            resultBox.style.backgroundColor = "#fadbd8"; // Error Red Box
             resultBox.style.color = "#78281f";
             resultBox.style.border = "1px solid #f5b7b1";
         }
